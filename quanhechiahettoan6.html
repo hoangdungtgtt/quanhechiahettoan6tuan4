@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HỆ THỐNG KIẾN THỨC VỀ QUAN HỆ CHIA HẾT VÀ TÍNH CHẤT CHIA HẾT CỦA MỘT TỔNG</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #eef2f7;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            padding: 30px 35px 40px;
+        }
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .copyright {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+        }
+        /* PHẦN I: LÝ THUYẾT */
+        .theory-box {
+            background: #f8fafc;
+            border-left: 6px solid #3b82f6;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .theory-box h2 {
+            font-size: 20px;
+            color: #1e40af;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theory-box h3 {
+            font-size: 16px;
+            color: #0f172a;
+            margin-top: 15px;
+            margin-bottom: 6px;
+        }
+        .theory-box p, .theory-box li {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+        .theory-box ul {
+            padding-left: 25px;
+            margin-top: 5px;
+        }
+        .theory-box .highlight {
+            background: #dbeafe;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        /* PHẦN II: BÀI TẬP */
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 30px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title span {
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px 18px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: 0.15s;
+        }
+        .question-block:hover {
+            border-color: #94a3b8;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        .question-number {
+            color: #3b82f6;
+            font-weight: 700;
+            min-width: 28px;
+        }
+        .options label {
+            display: block;
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 15px;
+            border: 1px solid transparent;
+        }
+        .options label:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.1);
+            accent-color: #3b82f6;
+        }
+        .true-false-group {
+            display: flex;
+            gap: 30px;
+            padding: 5px 0 5px 10px;
+        }
+        .true-false-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .true-false-group input[type="radio"] {
+            transform: scale(1.2);
+            accent-color: #3b82f6;
+        }
+        .fill-input {
+            padding: 10px 14px;
+            font-size: 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            transition: 0.2s;
+        }
+        .fill-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        /* NÚT CHẤM ĐIỂM */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #2563eb;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: 0.2s;
+            box-shadow: 0 8px 18px rgba(37,99,235,0.3);
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(37,99,235,0.4);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 14px;
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            display: none;
+            text-align: center;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .result-box h3 {
+            font-size: 24px;
+            color: #166534;
+            margin-bottom: 8px;
+        }
+        .result-box p {
+            font-size: 18px;
+            color: #14532d;
+        }
+        .student-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 18px 20px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+        .student-info .field {
+            flex: 1 1 200px;
+        }
+        .student-info label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+        .student-info input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        .student-info input:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+        .timer-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563eb;
+            background: #dbeafe;
+            padding: 6px 16px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            h1 { font-size: 20px; }
+            .student-info .field { flex: 1 1 100%; }
+            .true-false-group { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>HỆ THỐNG KIẾN THỨC VỀ QUAN HỆ CHIA HẾT VÀ TÍNH CHẤT CHIA HẾT CỦA MỘT TỔNG</h1>
+    <div class="subtitle">Ôn tập lý thuyết &amp; Luyện tập trắc nghiệm</div>
+
+    <!-- PHẦN I: LÝ THUYẾT -->
+    <div class="theory-box">
+        <h2>📘 PHẦN I: ÔN TẬP LÝ THUYẾT</h2>
+        <h3>1. Quan hệ chia hết</h3>
+        <p>Cho hai số tự nhiên <em>a</em> và <em>b</em> (với <em>b</em> ≠ 0). Nếu có số tự nhiên <em>k</em> sao cho <em>a = b . k</em> thì ta nói <em>a</em> chia hết cho <em>b</em>, ký hiệu là <em>a</em> ⋮ <em>b</em>. Khi đó <em>b</em> là <strong>ước</strong> của <em>a</em>, còn <em>a</em> là <strong>bội</strong> của <em>b</em>.</p>
+        <h3>2. Tính chất chia hết của một tổng/hiệu</h3>
+        <ul>
+            <li>Nếu <em>a</em> ⋮ <em>m</em> và <em>b</em> ⋮ <em>m</em> thì (<em>a + b</em>) ⋮ <em>m</em> và (<em>a − b</em>) ⋮ <em>m</em> (với <em>a</em> ≥ <em>b</em>).</li>
+            <li>Nếu <em>a</em> ⋮ <em>m</em> và <em>b</em> <strong>không</strong> chia hết cho <em>m</em> thì (<em>a + b</em>) <strong>không</strong> chia hết cho <em>m</em> và (<em>a − b</em>) <strong>không</strong> chia hết cho <em>m</em>.</li>
+        </ul>
+        <h3>3. Các dạng bài tập phổ biến</h3>
+        <ul>
+            <li><strong>Dạng 1:</strong> Tìm ước và bội của một số cho trước.</li>
+            <li><strong>Dạng 2:</strong> Xét tính chia hết của một tổng (hiệu) mà không cần tính giá trị của tổng đó.</li>
+            <li><strong>Dạng 3:</strong> Tìm điều kiện của ẩn <em>x</em> để tổng/hiệu chia hết.</li>
+        </ul>
+    </div>
+
+    <!-- PHẦN II: BÀI TẬP -->
+    <h2 class="section-title"><span>II</span> BÀI TẬP TỰ LUYỆN</h2>
+
+    <div class="student-info">
+        <div class="field">
+            <label>Họ và tên học sinh <span style="color:red">*</span></label>
+            <input type="text" id="studentName" placeholder="Nhập họ và tên..." required>
+        </div>
+        <div class="field">
+            <label>Lớp <span style="color:red">*</span></label>
+            <input type="text" id="studentClass" placeholder="Ví dụ: 6A1" required>
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <div class="timer-display" id="timerDisplay">⏱️ 00:00</div>
+    </div>
+
+    <!-- PHẦN TRẮC NGHIỆM -->
+    <div id="quizArea"></div>
+
+    <!-- NÚT CHẤM ĐIỂM -->
+    <button class="btn-submit" id="submitBtn">✅ CHẤM ĐIỂM &amp; NỘP BÀI</button>
+
+    <!-- KẾT QUẢ -->
+    <div class="result-box" id="resultBox">
+        <h3 id="resultScore">Điểm: 0/10</h3>
+        <p id="resultMessage">Vui lòng chờ trong giây lát...</p>
+    </div>
+
+    <div class="copyright">Bản quyền GV: Hoàng Anh Dũng - Trường THCS Tây Thái Ninh</div>
+</div>
+
+<script>
+    // ==================== NGÂN HÀNG CÂU HỎI ====================
+    // PHẦN I: CHỌN ĐÁP ÁN ĐÚNG (30 câu)
+    const bankPart1 = [
+        { q: "Tập hợp các ước của 12 là:", options: ["Ư(12) = {1; 2; 3; 4; 6; 12}", "Ư(12) = {0; 1; 2; 3; 4; 6; 12}", "Ư(12) = {1; 2; 3; 4; 6}", "Ư(12) = {2; 3; 4; 6; 12}"], ans: 0 },
+        { q: "Trong các số sau, số nào là bội của 8?", options: ["12", "16", "20", "28"], ans: 1 },
+        { q: "Các bội của 5 nhỏ hơn 25 là:", options: ["{0; 5; 10; 15; 20; 25}", "{5; 10; 15; 20}", "{0; 5; 10; 15; 20}", "{5; 10; 15; 20; 25}"], ans: 2 },
+        { q: "Cho tổng A = 15 + 45 + 60. Không tính giá trị, khẳng định nào đúng?", options: ["A chia hết cho 5", "A không chia hết cho 5", "A chia hết cho 9", "A chia hết cho 2"], ans: 0 },
+        { q: "Biết 18 ⋮ 6 và 24 ⋮ 6. Tổng 18 + 24 chia hết cho số nào?", options: ["4", "6", "8", "9"], ans: 1 },
+        { q: "Nếu a ⋮ 3 và b ⋮ 3 thì hiệu a − b (với a > b) có chia hết cho 3 không?", options: ["Không chia hết cho 3", "Chia hết cho 3", "Chỉ chia hết cho 2", "Không xác định"], ans: 1 },
+        { q: "Tổng 12 + 30 + 47 có chia hết cho 3 không?", options: ["Có, vì 12 và 30 chia hết cho 3", "Không, vì 47 không chia hết cho 3", "Có, vì 12 + 30 + 47 = 89", "Không, vì 89 không chia hết cho 3"], ans: 1 },
+        { q: "Tìm x thuộc tập {1; 2; 3; 4; 5} sao cho 10 + 20 + x chia hết cho 5.", options: ["x ∈ {1; 2; 3; 4}", "x = 5", "x ∈ {2; 4}", "x ∈ {1; 3; 5}"], ans: 1 },
+        { q: "Số nào vừa là ước của 15, vừa là ước của 20?", options: ["3", "4", "5", "6"], ans: 2 },
+        { q: "Cho M = 24 + 36 − x. Để M chia hết cho 6 thì x phải thỏa mãn:", options: ["x chia hết cho 6", "x không chia hết cho 6", "x là số chẵn", "x > 24"], ans: 0 },
+        { q: "Tập hợp các ước của 30 có bao nhiêu phần tử?", options: ["6", "7", "8", "9"], ans: 2 },
+        { q: "Khẳng định nào sau đây là SAI?", options: ["Nếu a ⋮ m và b ⋮ m thì (a+b) ⋮ m", "Nếu a ⋮ m và b ⋮ m thì (a−b) ⋮ m", "Nếu a ⋮ m và b không chia hết cho m thì (a+b) ⋮ m", "Nếu a không chia hết cho m và b ⋮ m thì (a+b) không chia hết cho m"], ans: 2 },
+        { q: "Tập hợp các ước của 16 là:", options: ["{1; 2; 4; 8; 16}", "{1; 2; 4; 8}", "{2; 4; 8; 16}", "{0; 1; 2; 4; 8; 16}"], ans: 0 },
+        { q: "Số nào sau đây là bội của 9?", options: ["18", "20", "25", "32"], ans: 0 },
+        { q: "Cho B = 21 + 35 + 49. Không tính giá trị, B chia hết cho số nào?", options: ["3", "5", "7", "9"], ans: 2 },
+        { q: "Biết 40 ⋮ 8 và 16 ⋮ 8. Hiệu 40 − 16 chia hết cho:", options: ["6", "8", "10", "12"], ans: 1 },
+        { q: "Tổng 11 + 22 + 33 chia hết cho:", options: ["2", "3", "4", "5"], ans: 1 },
+        { q: "Để tổng 15 + 25 + x chia hết cho 5, x có thể là:", options: ["3", "4", "5", "6"], ans: 2 },
+        { q: "Số 4 là ước của số nào sau đây?", options: ["10", "14", "20", "25"], ans: 2 },
+        { q: "Nếu a ⋮ 7 và b ⋮ 7 thì a + b chia hết cho:", options: ["5", "6", "7", "8"], ans: 2 },
+        { q: "Tập hợp các ước của 24 có bao nhiêu phần tử?", options: ["6", "7", "8", "9"], ans: 2 },
+        { q: "Tổng 10 + 20 + 30 + 41 có chia hết cho 10 không?", options: ["Có", "Không", "Không xác định", "Chia hết cho 5"], ans: 1 },
+        { q: "Tìm x ∈ {1; 3; 6} sao cho 12 + 15 + x không chia hết cho 3.", options: ["x = 1", "x = 3", "x = 6", "x = 9"], ans: 0 },
+        { q: "Số nào là bội của 12?", options: ["24", "30", "40", "50"], ans: 0 },
+        { q: "Cho A = 30 + 45 − x. Để A chia hết cho 5 thì:", options: ["x chia hết cho 5", "x không chia hết cho 5", "x là số chẵn", "x là số lẻ"], ans: 0 },
+        { q: "Khẳng định nào đúng?", options: ["6 là ước của 3", "3 là bội của 6", "6 là bội của 3", "Không có đáp án đúng"], ans: 2 },
+        { q: "Tập hợp các ước của 1 là:", options: ["{0}", "{1}", "{0; 1}", "∅"], ans: 1 },
+        { q: "Số 0 là bội của:", options: ["Chỉ số 0", "Mọi số tự nhiên khác 0", "Mọi số tự nhiên", "Không là bội của số nào"], ans: 1 },
+        { q: "Tổng 14 + 21 + 28 chia hết cho:", options: ["4", "7", "9", "11"], ans: 1 },
+        { q: "Tìm x để 18 + 27 + x chia hết cho 9.", options: ["x = 1", "x = 2", "x = 3", "x = 9"], ans: 3 }
+    ];
+
+    // PHẦN II: ĐÚNG / SAI (30 câu)
+    const bankPart2 = [
+        { q: "Tập hợp các ước của 8 là {1; 2; 4; 8}.", ans: true },
+        { q: "Số 0 là bội của mọi số tự nhiên khác 0.", ans: true },
+        { q: "Nếu a ⋮ 5 và b ⋮ 5 thì (a+b) ⋮ 5.", ans: true },
+        { q: "Tổng 14 + 21 + 35 chia hết cho 7.", ans: true },
+        { q: "Nếu a ⋮ 4 và b không chia hết cho 4 thì (a+b) không chia hết cho 4.", ans: true },
+        { q: "Tìm x để 15 + 25 + x chia hết cho 5, vậy x phải chia hết cho 5.", ans: true },
+        { q: "Số 6 là ước của 18 và cũng là bội của 3.", ans: true },
+        { q: "Hiệu 50 − 15 chia hết cho 5.", ans: true },
+        { q: "Tập hợp các bội của 4 nhỏ hơn 20 là {0; 4; 8; 12; 16}.", ans: true },
+        { q: "Nếu a ⋮ 3 và b ⋮ 3 thì (a−b) ⋮ 3.", ans: true },
+        { q: "Tổng 10 + 20 + 31 chia hết cho 10.", ans: false },
+        { q: "Số 9 vừa là ước của 27 vừa là bội của 3.", ans: true },
+        { q: "Nếu a không chia hết cho 2 và b không chia hết cho 2 thì (a+b) không chia hết cho 2.", ans: false },
+        { q: "Tập hợp các ước của 15 có 4 phần tử.", ans: true },
+        { q: "Để 12 + 18 + x chia hết cho 6 thì x phải chia hết cho 6.", ans: true },
+        { q: "Số 1 là ước của mọi số tự nhiên.", ans: true },
+        { q: "Tổng 25 + 35 + 45 chia hết cho 5.", ans: true },
+        { q: "Hiệu 100 − 23 chia hết cho 7.", ans: true },
+        { q: "Số 0 là ước của mọi số tự nhiên.", ans: false },
+        { q: "Nếu a ⋮ 9 và b ⋮ 9 thì tổng a+b chia hết cho 9.", ans: true },
+        { q: "Tổng 11 + 13 + 15 chia hết cho 3.", ans: true },
+        { q: "Tập hợp các ước của 20 là {1; 2; 4; 5; 10; 20}.", ans: true },
+        { q: "Nếu a ⋮ 2 và b ⋮ 4 thì (a+b) ⋮ 2.", ans: true },
+        { q: "Để M = 20 + 35 − x chia hết cho 5 thì x phải chia hết cho 5.", ans: true },
+        { q: "Số 16 là bội của 4.", ans: true },
+        { q: "Nếu a không chia hết cho 6 và b ⋮ 6 thì (a+b) không chia hết cho 6.", ans: true },
+        { q: "Tổng 1 + 2 + 3 + ... + 10 chia hết cho 5.", ans: true },
+        { q: "Số 12 là ước của 6.", ans: false },
+        { q: "Nếu a ⋮ 5 và b ⋮ 5 thì tích a.b chia hết cho 25.", ans: true },
+        { q: "Tổng 7 + 14 + 21 chia hết cho 7.", ans: true }
+    ];
+
+    // PHẦN III: ĐIỀN VÀO Ô TRỐNG (30 câu)
+    const bankPart3 = [
+        { q: "Số tự nhiên x nhỏ nhất khác 0 sao cho x là bội của 9 là:", ans: "9" },
+        { q: "Tập hợp các ước của 10 có số phần tử là:", ans: "4" },
+        { q: "Cho A = 12 + 18 + 24. Không tính giá trị, biết A chia hết cho số nào lớn nhất trong các số sau: 2, 3, 6?", ans: "6" },
+        { q: "Tìm số tự nhiên x (0 < x < 10) sao cho 20 + 15 + x chia hết cho 5. Giá trị của x là:", ans: "5" },
+        { q: "Hiệu 35 − 14 chia hết cho số nào? (Điền số lớn nhất có thể):", ans: "7" },
+        { q: "Biết a ⋮ 6 và b ⋮ 6. Tổng a + b chia hết cho 6. Vậy a+b có chia hết cho 3 không? (Điền Có/Không):", ans: "Có" },
+        { q: "Tập hợp các ước của 18 có bao nhiêu phần tử?", ans: "6" },
+        { q: "Số tự nhiên x thỏa mãn x ⋮ 7 và 10 < x < 20 là:", ans: "14" },
+        { q: "Cho B = 15 + 30 + 45. B chia hết cho số nào lớn nhất trong các số: 3, 5, 15?", ans: "15" },
+        { q: "Tìm x để 12 + 20 + x chia hết cho 4, biết x là số nhỏ nhất khác 0.", ans: "4" },
+        { q: "Số ước của 28 là:", ans: "6" },
+        { q: "Hiệu 50 − 20 chia hết cho 5. Vậy hiệu này có chia hết cho 10 không? (Có/Không):", ans: "Có" },
+        { q: "Tập hợp các bội của 6 nhỏ hơn 40 có bao nhiêu phần tử?", ans: "7" },
+        { q: "Tìm x ∈ {1; 2; 3; 4} sao cho 10 + 15 + x KHÔNG chia hết cho 5. Giá trị lớn nhất của x là:", ans: "4" },
+        { q: "Số tự nhiên a lớn nhất thỏa mãn a ⋮ 4 và a < 20 là:", ans: "16" },
+        { q: "Cho M = 24 + 36 − x. Để M ⋮ 6 và x nhỏ nhất khác 0, x là:", ans: "6" },
+        { q: "Tập hợp các ước của 30 có số phần tử là:", ans: "8" },
+        { q: "Tìm x để 18 + 27 + x chia hết cho 9, biết x là số có một chữ số lớn hơn 5.", ans: "9" },
+        { q: "Số 12 là bội của những số nào sau đây: 2, 3, 4, 5? (Liệt kê các số cách nhau bởi dấu phẩy):", ans: "2, 3, 4" },
+        { q: "Nếu a ⋮ 5 và b ⋮ 5 thì a+b chia hết cho 5. Vậy a+b có chia hết cho 25 không? (Có/Không/Chưa chắc):", ans: "Chưa chắc" },
+        { q: "Tập hợp các ước của 16 có bao nhiêu phần tử?", ans: "5" },
+        { q: "Tìm x nhỏ nhất để 10 + 20 + x chia hết cho 10.", ans: "10" },
+        { q: "Hiệu 45 − 18 chia hết cho số nào lớn nhất?", ans: "9" },
+        { q: "Số tự nhiên x nhỏ nhất thỏa mãn x ⋮ 3 và 5 < x < 10 là:", ans: "6" },
+        { q: "Cho A = 2 + 4 + 6 + ... + 20. A chia hết cho 2. Vậy A có chia hết cho 4 không? (Có/Không):", ans: "Không" },
+        { q: "Số ước của 36 là:", ans: "9" },
+        { q: "Tổng 11 + 22 + 33 chia hết cho 11. Vậy tổng này có chia hết cho 3 không? (Có/Không):", ans: "Có" },
+        { q: "Tìm số tự nhiên x lớn nhất có một chữ số sao cho 12 + 18 + x chia hết cho 6.", ans: "6" }
+    ];
+
+    // ==================== BIẾN TOÀN CỤC ====================
+    let currentQuestions = { part1: [], part2: [], part3: [] };
+    let startTime = null;
+    let timerInterval = null;
+    let submitted = false;
+    let studentSTT = 1;
+
+    // Lấy số thứ tự học sinh từ localStorage (đếm số lần nộp thành công)
+    function getNextSTT() {
+        let count = localStorage.getItem('submitCount');
+        if (count === null) count = 0;
+        count = parseInt(count) + 1;
+        localStorage.setItem('submitCount', count);
+        return count;
+    }
+    // Khởi tạo STT hiện tại (chỉ tăng khi nộp thành công)
+    studentSTT = parseInt(localStorage.getItem('submitCount') || 0) + 1;
+
+    // ==================== HÀM TRỘN ĐỀ ====================
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function pickRandom(arr, n) {
+        return shuffleArray(arr).slice(0, n);
+    }
+
+    // ==================== HIỂN THỊ ĐỀ ====================
+    function renderQuiz() {
+        const container = document.getElementById('quizArea');
+        let html = '';
+
+        // PHẦN I: CHỌN ĐÁP ÁN ĐÚNG (12 câu)
+        html += `<h3 style="margin: 20px 0 10px; font-size:18px; color:#1e40af;">PHẦN I: CHỌN ĐÁP ÁN ĐÚNG (12 câu)</h3>`;
+        currentQuestions.part1.forEach((item, idx) => {
+            html += `<div class="question-block" data-part="1" data-index="${idx}">`;
+            html += `<div class="question-text"><span class="question-number">Câu ${idx + 1}:</span> ${item.q}</div>`;
+            html += `<div class="options">`;
+            item.options.forEach((opt, oi) => {
+                const letter = String.fromCharCode(65 + oi); // A, B, C, D
+                html += `<label><input type="radio" name="p1_${idx}" value="${oi}"> ${letter}. ${opt}</label>`;
+            });
+            html += `</div></div>`;
+        });
+
+        // PHẦN II: ĐÚNG / SAI (8 câu)
+        html += `<h3 style="margin: 30px 0 10px; font-size:18px; color:#1e40af;">PHẦN II: CÂU SAU ĐÚNG HAY SAI (8 câu)</h3>`;
+        currentQuestions.part2.forEach((item, idx) => {
+            html += `<div class="question-block" data-part="2" data-index="${idx}">`;
+            html += `<div class="question-text"><span class="question-number">Câu ${idx + 1}:</span> ${item.q}</div>`;
+            html += `<div class="true-false-group">`;
+            html += `<label><input type="radio" name="p2_${idx}" value="true"> Đúng</label>`;
+            html += `<label><input type="radio" name="p2_${idx}" value="false"> Sai</label>`;
+            html += `</div></div>`;
+        });
+
+        // PHẦN III: ĐIỀN VÀO Ô TRỐNG (6 câu)
+        html += `<h3 style="margin: 30px 0 10px; font-size:18px; color:#1e40af;">PHẦN III: ĐIỀN GIÁ TRỊ THÍCH HỢP VÀO Ô TRỐNG (6 câu)</h3>`;
+        currentQuestions.part3.forEach((item, idx) => {
+            html += `<div class="question-block" data-part="3" data-index="${idx}">`;
+            html += `<div class="question-text"><span class="question-number">Câu ${idx + 1}:</span> ${item.q}</div>`;
+            html += `<div><input type="text" class="fill-input" name="p3_${idx}" placeholder="Nhập câu trả lời..."></div>`;
+            html += `</div>`;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // ==================== ĐỒNG HỒ ====================
+    function startTimer() {
+        startTime = Date.now();
+        const display = document.getElementById('timerDisplay');
+        timerInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+            const s = String(elapsed % 60).padStart(2, '0');
+            display.textContent = `⏱️ ${m}:${s}`;
+        }, 500);
+    }
+
+    // ==================== CHẤM ĐIỂM ====================
+    function calculateScore() {
+        let part1Correct = 0, part2Correct = 0, part3Correct = 0;
+
+        // Phần 1: mỗi câu đúng 0.25 điểm (12 câu = 3 điểm)
+        currentQuestions.part1.forEach((item, idx) => {
+            const selected = document.querySelector(`input[name="p1_${idx}"]:checked`);
+            if (selected && parseInt(selected.value) === item.ans) part1Correct++;
+        });
+        const part1Score = part1Correct * 0.25;
+
+        // Phần 2: mỗi câu đúng 0.5 điểm (8 câu = 4 điểm)
+        currentQuestions.part2.forEach((item, idx) => {
+            const selected = document.querySelector(`input[name="p2_${idx}"]:checked`);
+            if (selected) {
+                const val = selected.value === 'true';
+                if (val === item.ans) part2Correct++;
+            }
+        });
+        const part2Score = part2Correct * 0.5;
+
+        // Phần 3: mỗi câu đúng 0.5 điểm (6 câu = 3 điểm)
+        currentQuestions.part3.forEach((item, idx) => {
+            const input = document.querySelector(`input[name="p3_${idx}"]`);
+            if (input) {
+                const userAns = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
+                const correctAns = item.ans.trim().toLowerCase().replace(/\s+/g, ' ');
+                // So sánh linh hoạt: chấp nhận cả dấu phẩy, khoảng trắng
+                if (userAns === correctAns) part3Correct++;
+            }
+        });
+        const part3Score = part3Correct * 0.5;
+
+        const total = part1Score + part2Score + part3Score;
+        return { total: Math.round(total * 100) / 100, part1Correct, part2Correct, part3Correct, part1Score, part2Score, part3Score };
+    }
+
+    // ==================== GỬI DỮ LIỆU LÊN GOOGLE SHEET ====================
+    async function sendToGoogleSheet(data) {
+        const url = 'https://script.google.com/macros/s/AKfycbwAROLhq6j0DB_YuuLovMzq-SGzDlGBsQWTuUvdOC7RRaE0W2c6_wsT0hXai9og0d8/exec';
+        try {
+            // Dùng fetch với mode no-cors để tránh lỗi CORS, nhưng không đọc được response
+            await fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log('Đã gửi dữ liệu (no-cors):', data);
+            return true;
+        } catch (error) {
+            console.error('Lỗi gửi dữ liệu:', error);
+            return false;
+        }
+    }
+
+    // ==================== XỬ LÝ NỘP BÀI ====================
+    async function handleSubmit() {
+        if (submitted) return;
+        const name = document.getElementById('studentName').value.trim();
+        const cls = document.getElementById('studentClass').value.trim();
+
+        if (!name || !cls) {
+            alert('Vui lòng nhập đầy đủ Họ tên và Lớp trước khi nộp bài!');
+            return;
+        }
+
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Đang chấm điểm...';
+
+        // Dừng đồng hồ
+        clearInterval(timerInterval);
+        const endTime = Date.now();
+        const durationSeconds = Math.floor((endTime - startTime) / 1000);
+        const durationMin = Math.floor(durationSeconds / 60);
+        const durationSec = durationSeconds % 60;
+        const durationStr = `${String(durationMin).padStart(2, '0')}:${String(durationSec).padStart(2, '0')}`;
+
+        // Tính điểm
+        const score = calculateScore();
+        const submitTime = new Date().toLocaleString('vi-VN', { hour12: false });
+
+        // Lấy STT mới
+        const stt = getNextSTT();
+        studentSTT = stt; // cập nhật
+
+        // Hiển thị kết quả
+        const resultBox = document.getElementById('resultBox');
+        resultBox.classList.add('show');
+        document.getElementById('resultScore').textContent = `Điểm: ${score.total}/10`;
+        document.getElementById('resultMessage').innerHTML = `
+            <p>Chúc mừng <strong>${name}</strong> - Lớp <strong>${cls}</strong> đã hoàn thành bài luyện tập!</p>
+            <p style="font-size:15px; margin-top:8px; color:#475569;">
+                Phần I: ${score.part1Correct}/12 câu (${score.part1Score} điểm) &nbsp;|&nbsp;
+                Phần II: ${score.part2Correct}/8 câu (${score.part2Score} điểm) &nbsp;|&nbsp;
+                Phần III: ${score.part3Correct}/6 câu (${score.part3Score} điểm)
+            </p>
+            <p style="font-size:14px; margin-top:6px; color:#64748b;">Thời gian làm bài: ${durationStr} (phút:giây)</p>
+        `;
+
+        // Chuẩn bị dữ liệu gửi
+        const payload = {
+            name: name,
+            class: cls,
+            score: score.total,
+            submitTime: submitTime,
+            duration: durationStr,
+            stt: stt
+        };
+
+        // Gửi dữ liệu
+        await sendToGoogleSheet(payload);
+
+        // Cập nhật trạng thái
+        submitted = true;
+        btn.textContent = '✅ ĐÃ NỘP BÀI';
+        btn.style.background = '#16a34a';
+        btn.style.cursor = 'default';
+
+        // Cuộn xuống kết quả
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ==================== KHỞI TẠO ====================
+    function init() {
+        // Random đề
+        currentQuestions.part1 = pickRandom(bankPart1, 12);
+        currentQuestions.part2 = pickRandom(bankPart2, 8);
+        currentQuestions.part3 = pickRandom(bankPart3, 6);
+
+        renderQuiz();
+        startTimer();
+
+        document.getElementById('submitBtn').addEventListener('click', handleSubmit);
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
